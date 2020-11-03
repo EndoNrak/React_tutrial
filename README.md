@@ -1,6 +1,9 @@
 # react_tutrial
 
-公式チュートリアル
+公式チュートリアルの追加課題をやりました
+六個の課題をissueに分けています
+worked on additional tasks in official React tutrial 
+6 tasks are devided to 6 issues
 
 https://ja.reactjs.org/tutorial/tutorial.html
 
