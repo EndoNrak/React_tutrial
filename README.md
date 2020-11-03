@@ -4,9 +4,7 @@
 
 https://ja.reactjs.org/tutorial/tutorial.html
 
-実行環境（tictactoe）
 
-https://codepen.io/gaearon/pen/gWWZgR
 
 # Getting Started with Create React App
 
