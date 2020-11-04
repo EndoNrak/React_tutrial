@@ -1,6 +1,6 @@
 import './tutrial.css'
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 
 function Square(props) {
   return (
@@ -94,11 +94,20 @@ class Game extends React.Component {
       const desc = move ?
         'Go to move #' + move + '(' + (step.column_number%3 + 1) + ', '+ (Math.floor(step.column_number/3)+1) +')' :
         'Go to game start';
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
+        if(this.state.stepNumber===move){
+            return (
+                <li key={move}>
+                    <button className="active" onClick={() => this.jumpTo(move)}>{desc}</button>
+                </li>
+            );
+        }
+        else{
+            return(
+                <li key={move}>
+                    <button onClick={() => this.jumpTo(move)} >{desc}</button>
+                </li>
+            );
+        }
     });
 
     let status;
