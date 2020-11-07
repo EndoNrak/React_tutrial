@@ -101,7 +101,6 @@ class Game extends React.Component {
         history = history.slice().reverse();
         const moves = history.map((step, move) => {
             move = history.length - move -1;
-            console.log(move);
             const desc = move ?
             'Go to move #' + move + '(' + (step.column_number%3 + 1) + ', '+ (Math.floor(step.column_number/3)+1) +')' :
             'Go to game start';
@@ -123,7 +122,6 @@ class Game extends React.Component {
     }
     else{
         const moves = history.map((step, move) => {
-            console.log(move);
             const desc = move ?
             'Go to move #' + move + '(' + (step.column_number%3 + 1) + ', '+ (Math.floor(step.column_number/3)+1) +')' :
             'Go to game start';
