@@ -63,7 +63,8 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      IsListAsc: true
     };
   }
 
@@ -94,30 +95,68 @@ class Game extends React.Component {
     });
   }
 
+  getOrderedMoves(){
+    var history = this.state.history;
+    if(!this.state.IsListAsc){
+        history = history.slice().reverse();
+        const moves = history.map((step, move) => {
+            move = history.length - move -1;
+            console.log(move);
+            const desc = move ?
+            'Go to move #' + move + '(' + (step.column_number%3 + 1) + ', '+ (Math.floor(step.column_number/3)+1) +')' :
+            'Go to game start';
+            if(this.state.stepNumber===move){
+                return (
+                    <li key={move}>
+                        <button className="active" onClick={() => this.jumpTo(move)}>{desc}</button>
+                    </li>
+                );
+            }
+            else{
+                return(
+                    <li key={move}>
+                        <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    </li>
+                );
+            }});
+        return (moves);
+    }
+    else{
+        const moves = history.map((step, move) => {
+            console.log(move);
+            const desc = move ?
+            'Go to move #' + move + '(' + (step.column_number%3 + 1) + ', '+ (Math.floor(step.column_number/3)+1) +')' :
+            'Go to game start';
+            if(this.state.stepNumber===move){
+                return (
+                    <li key={move}>
+                        <button className="active" onClick={() => this.jumpTo(move)}>{desc}</button>
+                    </li>
+                );
+            }
+            else{
+                return(
+                    <li key={move}>
+                        <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    </li>
+                );
+            }});
+        return (moves);
+    }
+  }
+
+
+  handleIsAscClick(){
+    this.setState(
+        {IsListAsc: !this.state.IsListAsc}
+    );
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-
-    const moves = history.map((step, move) => {
-      const desc = move ?
-        'Go to move #' + move + '(' + (step.column_number%3 + 1) + ', '+ (Math.floor(step.column_number/3)+1) +')' :
-        'Go to game start';
-        if(this.state.stepNumber===move){
-            return (
-                <li key={move}>
-                    <button className="active" onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
-        }
-        else{
-            return(
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)} >{desc}</button>
-                </li>
-            );
-        }
-    });
+    const moves = this.getOrderedMoves();
 
     let status;
     if (winner) {
@@ -125,6 +164,7 @@ class Game extends React.Component {
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
+    let order = this.state.IsListAsc ?"ASC" : "DESC";
 
     return (
       <div className="game">
@@ -136,6 +176,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <button onClick={() => this.handleIsAscClick()}>{order}</button>
           <ol>{moves}</ol>
         </div>
       </div>
