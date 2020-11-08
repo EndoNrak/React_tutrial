@@ -64,7 +64,6 @@ class Game extends React.Component {
         }
       ],
       highlights: Array(9).fill(null),
-      // highlights: [true, true, false, false, false, false, false, false, false],
       stepNumber: 0,
       xIsNext: true,
       IsListAsc: true
@@ -98,7 +97,8 @@ class Game extends React.Component {
 
     squares[i] = this.state.xIsNext ? "X" : "O";
     let new_win = calculateWinner(squares);
-    if (new_win.winner){
+    if (new_win.winner==="DRAW"){
+    }else if (new_win.winner){
       this.highlight_line(new_win.win_line);
     }else if (!new_win.winner){
       this.delete_highlight();
@@ -185,11 +185,14 @@ class Game extends React.Component {
     const moves = this.getOrderedMoves();
 
     let status;
-    if (win.winner) {
+    if(win.winner === "DRAW"){
+      status = "the game is draw...............";
+    }else if (win.winner) {
       status = "Winner: " + win.winner;
-    } else {
+    }else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
+
     let order = this.state.IsListAsc ?"ASC" : "DESC";
 
     return (
@@ -236,6 +239,15 @@ function calculateWinner(squares) {
       win.win_line = [a, b, c];
       return win;
     }
+  }
+  let notnullSquareNum =0;
+  squares.forEach(element => {
+    if(element!=null){
+      notnullSquareNum ++;
+    }
+  });
+  if(notnullSquareNum===9){
+    win.winner = "DRAW";
   }
   return win;
 }
